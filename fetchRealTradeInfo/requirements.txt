@@ -1,0 +1,6 @@
+aiohttp==3.3.0
+cchardet
+aiodns
+sqlalchemy
+mysqlclient==1.3.12
+xmltodict==0.11.0
