@@ -11,6 +11,7 @@ from sqlalchemy import Column, Integer, String, DateTime
 import xmltodict
 import hashlib
 import json
+from dateutil.relativedelta import relativedelta
 
 logger = logging.getLogger(__name__)
 
@@ -88,8 +89,8 @@ async def async_download(session, yyyymm):
                                               price=int(item['거래금액'].replace(',', '')), start_year=item['건축년도'])
                 session.add(apt_trade_info)
                 session.commit()
-            except Exception as e:
-                print(e)
+            except:
+                pass
 
 
 def lambda_handler(event, context):
@@ -97,8 +98,16 @@ def lambda_handler(event, context):
     Session = sessionmaker(bind=engine)
     session = Session()
 
+    futures = []
+
+    now = datetime.datetime.today()
+    for i in range(0, 4):
+        target = now + relativedelta(months=i * -1)
+        yyyymm = target.strftime('%Y%m')
+        futures.append(async_download(session, yyyymm))
+
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(async_download(session, '201708'))
+    loop.run_until_complete(asyncio.wait(futures))
 
     connection.close()
 

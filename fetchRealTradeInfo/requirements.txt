@@ -4,3 +4,4 @@ aiodns==1.1.1
 sqlalchemy==1.2.8
 xmltodict==0.11.0
 PyMySQL==0.8.1
+python-dateutil==2.7.3
