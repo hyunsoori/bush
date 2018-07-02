@@ -1,0 +1,4 @@
+sqlalchemy==1.2.8
+PyMySQL==0.8.1
+python-dateutil==2.7.3
+boto3==1.7.48
